@@ -88,8 +88,7 @@ const fetchData = async () => {
               <TableCell>{item.espacioRegular}</TableCell>
               <TableCell className="text-right flex">
                 <AlertDialogForm
-                  asignatura={item}
-                />
+                  asignatura={item}/>
                 <EditDialogForm asignatura={item} />
                 <DeleteDialog onDelete={deleteAsignatura} asignatura={item}/>
               </TableCell>
