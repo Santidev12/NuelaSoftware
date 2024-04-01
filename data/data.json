@@ -1,0 +1,31 @@
+{
+  "asignaturas": [
+    {
+      "id": "1",
+      "nombre": "Matemáticas",
+      "tipo": "Obligatoria",
+      "curso": "Primero",
+      "grupo": "A",
+      "horasSemana": "3h",
+      "espacioRegular": "Aula 101"
+    },
+    {
+      "id": "2",
+      "nombre": "Física",
+      "tipo": "Optativa",
+      "curso": "Segundo",
+      "grupo": "B",
+      "horasSemana": "2h",
+      "espacioRegular": "Laboratorio 1"
+    },
+    {
+      "id": "4098",
+      "nombre": "Lengua",
+      "tipo": "Obligatoria",
+      "curso": "Primero",
+      "grupo": "A",
+      "horasSemana": "1h",
+      "espacioRegular": "Laboratorio"
+    }
+  ]
+}
