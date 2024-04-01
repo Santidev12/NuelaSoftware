@@ -21,7 +21,7 @@ return (
       <UserButton />
       </div>
     </div>
-    <div className="flex flex-col w-full my-20">
+    <div className="flex flex-col w-full my-10">
             <SidebarRoutes />
         </div>
   </div>

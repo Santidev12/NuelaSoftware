@@ -6,16 +6,21 @@ import { cn } from '@/lib/utils';
 import { useUser } from '@clerk/nextjs';
 import { useEffect, useState } from 'react';
 import { DialogDemo } from './(root)/_components/dialog-form';
-import MyForm from './(root)/_components/form-2';
 import { TableDashboard } from './(root)/_components/table-dashboard';
+import { Hours } from './(root)/_components/hours';
+import axios from 'axios';
+
 
 export default function Home() {
-    const [isActive, setIsActive] = useState('Lectivas');
-
     const { user } = useUser();
     const [userName, setUserName] = useState<string>('');
     const [userEmail, setUserEmail] = useState<string>('');
     const [userInitials, setUserInitials] = useState<string>('');
+
+    const [totalHorasSemanales, setTotalHorasSemanales] = useState<number>(0);
+
+    const [isActive, setIsActive] = useState('Lectivas');
+
 
     useEffect(() => {
         const fetchUserName = async () => {
@@ -35,6 +40,28 @@ export default function Home() {
 
         fetchUserName();
     }, [user]);
+
+
+    
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await axios.get('http://localhost:4000/asignaturas');
+                const horasSemanales = response.data.map((asignatura: any) => {
+                    const horasString = asignatura.horasSemana; // Utilizamos el nombre correcto 'horasSemana'
+                    const horasNumerico = parseInt(horasString.replace('h', '')); // Quita la 'h' y convierte a número
+                    return horasNumerico;
+                });
+                const totalHoras = horasSemanales.reduce((acc: number, cur: number) => acc + cur, 0);
+                setTotalHorasSemanales(totalHoras);
+            } catch (error: any) {
+                console.error('Error al obtener las asignaturas:', error.message);
+            }
+        }
+    
+        fetchData();
+    }, []);
+    
 
     return (
         <div className='mx-20  pt-0'>
@@ -71,25 +98,25 @@ export default function Home() {
 </div>
 
 <div className='flex flex-row w-full my-14'>
-    <div className='w-full'>
+      <div className='w-full'>
         <p className='text-gray-500 font-medium'>Horas totales</p>
         <div className='text-4xl font-bold mt-6'>
-            18 horas
+          {totalHorasSemanales} horas
         </div>
-    </div>
-    <div className='w-full'>
+      </div>
+      <div className='w-full'>
         <p className='text-gray-500 font-medium'>Horas lectivas</p>
         <div className='text-4xl font-bold mt-6'>
-            18 horas
+          {totalHorasSemanales} horas
         </div>
-    </div>
-    <div className='w-full'>
+      </div>
+      <div className='w-full'>
         <p className='text-gray-500 font-medium'>Horas complementarias</p>
         <div className='text-4xl font-bold mt-6'>
-            0 horas
+          0 horas
         </div>
+      </div>
     </div>
-</div>
 <hr className='my-6'/>
 
 <div className=''>

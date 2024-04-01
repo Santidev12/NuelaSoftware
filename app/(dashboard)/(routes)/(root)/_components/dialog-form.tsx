@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/dialog"
 import { ComboboxForm } from "./form"
 import { useToast } from '@/components/ui/use-toast';
+import axios from 'axios';
 
 export function DialogDemo() {
   const [formData, setFormData] = useState({
@@ -56,65 +57,65 @@ export function DialogDemo() {
     optionsSpace: [
       { label: "Aula 101", value: "Aula 101" },
       { label: "Aula 102", value: "Aula 102" },
-      { label: "Laboratorio", value: "Laboratorio" },
+      { label: "Laboratorio 1", value: "Laboratorio 1" },
     ],
   };
 
- 
- // Función para enviar el formulario
- const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  // Validar si todos los campos están llenos
-  if (
-    formData.nombre &&
-    formData.tipo &&
-    formData.curso &&
-    formData.grupo &&
-    formData.horasSemana &&
-    formData.espacioRegular
-  ) {
-    try {
-      setFormData({
-        nombre: '',
-        tipo: '',
-        curso: '',
-        grupo: '',
-        horasSemana: '',
-        espacioRegular: ''
-      });
 
-      const response = await fetch('http://localhost:4000/asignaturas', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      });
-      if (!response.ok) {
-        throw new Error('Error al enviar los datos al servidor');
+  // Función para enviar el formulario
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+  
+    // Validar si todos los campos están llenos
+    if (
+      formData.nombre &&
+      formData.tipo &&
+      formData.curso &&
+      formData.grupo &&
+      formData.horasSemana &&
+      formData.espacioRegular
+    ) {
+      try {
+        const response = await axios.post('http://localhost:4000/asignaturas', formData, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        console.log('Datos guardados en el servidor con éxito', response.data);
+        
+        // Limpiar el formulario después de enviar los datos
+        setFormData({
+          nombre: '',
+          tipo: '',
+          curso: '',
+          grupo: '',
+          horasSemana: '',
+          espacioRegular: ''
+        });
+        
+        window.location.reload();
+      } catch (error: any) {
+        console.error('Error al enviar los datos al servidor:', error.message);
       }
-      console.log('Datos guardados en el servidor con éxito', formData);
-    } catch (error: any) {
-      console.error('Error al enviar los datos al servidor:', error.message);
+    } else {
+      // Mostrar un toast de error si no todos los campos están llenos
+      toast({
+        title: 'Error al enviar',
+        description: 'Por favor, completa todos los campos antes de enviar.',
+        duration: 5000 // Duración del toast en milisegundos
+      });
     }
-  } else {
-    // Mostrar un toast de error si no todos los campos están llenos
-    toast({
-      title: 'Error al enviar',
-      description: 'Por favor, completa todos los campos antes de enviar.',
-      duration: 5000 // Duración del toast en milisegundos
-    });
-  }
-};
+  };
 
-const { toast } = useToast()
+  const { toast } = useToast();
 
   return (
     <Dialog>
       <DialogTrigger asChild>
         <Button variant="nuela">+ Añadir Asignatura</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[600px] h-[800px]">
         <DialogHeader>
           <DialogTitle>Añadir Asignatura</DialogTitle>
         </DialogHeader>
@@ -122,42 +123,43 @@ const { toast } = useToast()
           <ComboboxForm
             label="Nombre"
             options={[{ label: "Selecciona una asignatura", value: "" }, ...options.optionsName]}
-            value={formData.nombre}
+            defaultValue={formData.nombre}
             onChange={(value) => handleComboboxChange('nombre', value)}
           />
           <ComboboxForm
             label="Tipo"
             options={[{ label: "Selecciona un tipo", value: "" }, ...options.optionsType]}
-            value={formData.tipo}
+            defaultValue={formData.tipo}
             onChange={(value) => handleComboboxChange('tipo', value)}
           />
           <ComboboxForm
             label="Curso"
             options={[{ label: "Selecciona un curso", value: "" }, ...options.optionsCourse]}
-            value={formData.curso}
+            defaultValue={formData.curso}
             onChange={(value) => handleComboboxChange('curso', value)}
           />
           <ComboboxForm
             label="Grupo"
             options={[{ label: "Selecciona un grupo", value: "" }, ...options.optionsGroup]}
-            value={formData.grupo}
+            defaultValue={formData.grupo}
             onChange={(value) => handleComboboxChange('grupo', value)}
           />
           <ComboboxForm
             label="Horas Semana"
             options={[{ label: "Selecciona horas semana", value: "" }, ...options.optionsHours]}
-            value={formData.horasSemana}
+            defaultValue={formData.horasSemana}
             onChange={(value) => handleComboboxChange('horasSemana', value)}
           />
           <ComboboxForm
             label="Espacio Regular"
             options={[{ label: "Selecciona un espacio regular", value: "" }, ...options.optionsSpace]}
-            value={formData.espacioRegular}
+            defaultValue={formData.espacioRegular}
             onChange={(value) => handleComboboxChange('espacioRegular', value)}
           />
-          <Button type="submit" className="bg-blue-500 hover:bg-blue-700 mt-10 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Guardar</Button>
-          </form>
-          
+          <div className='flex justify-end'>
+            <Button type="submit" className="bg-nuela mt-10 text-white font-bold py-2 px-4 rounded">Añadir Asignatura</Button>
+          </div>
+        </form>
       </DialogContent>
     </Dialog>
   )

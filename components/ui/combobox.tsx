@@ -30,7 +30,6 @@ export function Combobox({ options, value, onChange }: ComboboxProps) {
         <option key={index} value={option.value}>{option.label}</option>
       ))}
     </select>
-    <ChevronDown />
     </>
   );
 }

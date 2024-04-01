@@ -4,7 +4,6 @@ import { z } from "zod"
 import { Form, FormField, FormItem, FormLabel, FormDescription, FormMessage } from "@/components/ui/form"
 import { Combobox } from '@/components/ui/combobox'
 import { toast } from "@/components/ui/use-toast"
-import { ChevronDown } from "lucide-react"
 
 type Option = {
   value: string;
@@ -14,11 +13,11 @@ type Option = {
 type Props = {
   label: string; // Agregar label prop
   options: Option[];
-  value: string;
+  defaultValue: string;
   onChange: (value: string) => void;
 };
 
-export function ComboboxForm({ label, options, value, onChange }: Props) { // Recibir label prop
+export function ComboboxForm({ label, options, defaultValue, onChange }: Props) { // Recibir label prop
   const FormSchema = z.object({
     language: z.string({
       required_error: "Please select a language.",
@@ -51,7 +50,7 @@ export function ComboboxForm({ label, options, value, onChange }: Props) { // Re
               <FormLabel className="mb-2">{label}</FormLabel> {/* Usar label prop */}
               <Combobox
                 options={options}
-                value={field.value}
+                value={field.value || defaultValue}
                 onChange={onChange}
               />
               <FormMessage />

@@ -2,7 +2,7 @@
   "asignaturas": [
     {
       "id": "1",
-      "nombre": "Matemáticas",
+      "nombre": "Lengua",
       "tipo": "Obligatoria",
       "curso": "Primero",
       "grupo": "A",
@@ -11,21 +11,21 @@
     },
     {
       "id": "2",
-      "nombre": "Física",
+      "nombre": "Matemáticas",
       "tipo": "Optativa",
       "curso": "Segundo",
       "grupo": "B",
-      "horasSemana": "2h",
+      "horasSemana": "3h",
       "espacioRegular": "Laboratorio 1"
     },
     {
-      "id": "4098",
-      "nombre": "Lengua",
+      "id": "2b7b",
+      "nombre": "Matemáticas",
       "tipo": "Obligatoria",
-      "curso": "Primero",
+      "curso": "Segundo",
       "grupo": "A",
-      "horasSemana": "1h",
-      "espacioRegular": "Laboratorio"
+      "horasSemana": "2h",
+      "espacioRegular": "Laboratorio 1"
     }
   ]
 }
